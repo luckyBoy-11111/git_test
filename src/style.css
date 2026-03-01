@@ -1,79 +1,51 @@
+/* 科技感主题 - 全局变量与基础样式 */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* 主色：深色背景 */
+  --tg-bg-deep: #060a0f;
+  --tg-bg-card: rgba(12, 20, 32, 0.85);
+  --tg-bg-input: rgba(8, 18, 28, 0.9);
+  /* 强调色：青色/科技蓝 */
+  --tg-accent: #00d4ff;
+  --tg-accent-dim: #00a3cc;
+  --tg-glow: rgba(0, 212, 255, 0.4);
+  --tg-glow-strong: rgba(0, 212, 255, 0.6);
+  /* 边框与分割 */
+  --tg-border: rgba(0, 212, 255, 0.2);
+  --tg-border-focus: rgba(0, 212, 255, 0.6);
+  /* 文字 */
+  --tg-text: #e2e8f0;
+  --tg-text-muted: #64748b;
+  --tg-text-dim: #475569;
+  /* 状态 */
+  --tg-done: #00ff88;
+  --tg-done-glow: rgba(0, 255, 136, 0.3);
+  --tg-danger: #ff3366;
+  --tg-danger-glow: rgba(255, 51, 102, 0.25);
+  /* 字体 */
+  --tg-font-display: 'Orbitron', sans-serif;
+  --tg-font-mono: 'JetBrains Mono', monospace;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-.card {
-  padding: 2em;
+  font-family: var(--tg-font-mono);
+  font-size: 14px;
+  color: var(--tg-text);
+  background: var(--tg-bg-deep);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1rem;
 }

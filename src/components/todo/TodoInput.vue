@@ -9,7 +9,7 @@
       @keydown.enter="handleAdd"
     />
     <button type="button" class="todo-add-btn" @click="handleAdd">
-      {{ buttonText }}
+      <span class="todo-add-btn-text">{{ buttonText }}</span>
     </button>
   </div>
 </template>
@@ -53,31 +53,53 @@ function handleAdd() {
 
 .todo-input {
   flex: 1;
-  padding: 0.65rem 1rem;
-  font-size: 0.95rem;
-  color: #c0caf5;
-  background: #1f2335;
-  border: 1px solid #3b4261;
-  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-family: var(--tg-font-mono);
+  font-size: 0.9rem;
+  color: var(--tg-text);
+  background: var(--tg-bg-input);
+  border: 1px solid var(--tg-border);
+  border-radius: 2px;
   outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .todo-input::placeholder {
-  color: #565f89;
+  color: var(--tg-text-dim);
+}
+
+.todo-input:hover {
+  border-color: rgba(0, 212, 255, 0.35);
+}
+
+.todo-input:focus {
+  border-color: var(--tg-border-focus);
+  box-shadow: 0 0 0 2px var(--tg-glow);
 }
 
 .todo-add-btn {
-  padding: 0.65rem 1.25rem;
-  font-size: 0.95rem;
+  padding: 0.6rem 1.2rem;
+  font-family: var(--tg-font-mono);
+  font-size: 0.9rem;
   font-weight: 500;
-  color: #c0caf5;
-  background: #7aa2f7;
-  border: none;
-  border-radius: 8px;
+  color: var(--tg-bg-deep);
+  background: var(--tg-accent);
+  border: 1px solid var(--tg-accent);
+  border-radius: 2px;
   cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.15s;
 }
 
 .todo-add-btn:hover {
-  background: #6a92e7;
+  box-shadow: 0 0 16px var(--tg-glow), 0 0 32px rgba(0, 212, 255, 0.2);
+}
+
+.todo-add-btn:active {
+  transform: scale(0.98);
+}
+
+.todo-add-btn-text {
+  position: relative;
+  z-index: 1;
 }
 </style>
