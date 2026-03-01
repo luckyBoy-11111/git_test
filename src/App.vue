@@ -3,14 +3,20 @@
     <div class="todo-page-bg" aria-hidden="true" />
     <div class="todo-card">
       <div class="todo-card-glow" aria-hidden="true" />
-      <TodoHeader />
-      <TodoInput @add="addTodo" />
-      <TodoList
-        :items="todoItems"
-        @toggle="toggleTodo"
-        @remove="openDeleteConfirm"
-      />
-      <TodoFooter :total="todoItems.length" :done-count="doneCount" />
+      <div class="todo-layout">
+        <aside class="todo-side-add">
+          <TodoHeader />
+          <TodoInput @add="addTodo" />
+        </aside>
+        <main class="todo-side-list">
+          <TodoList
+            :items="todoItems"
+            @toggle="toggleTodo"
+            @remove="openDeleteConfirm"
+          />
+          <TodoFooter :total="todoItems.length" :done-count="doneCount" />
+        </main>
+      </div>
     </div>
 
     <ConfirmDialog
@@ -117,7 +123,7 @@ function removeTodo(id: string) {
 .todo-card {
   position: relative;
   width: 100%;
-  max-width: 440px;
+  max-width: 720px;
   background: var(--tg-bg-card);
   border: 1px solid var(--tg-border);
   border-radius: 4px;
@@ -126,6 +132,33 @@ function removeTodo(id: string) {
   box-shadow:
     0 0 0 1px rgba(0, 212, 255, 0.08),
     0 24px 48px rgba(0, 0, 0, 0.4);
+}
+
+.todo-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.todo-side-add {
+  flex-shrink: 0;
+  width: 220px;
+  padding-right: 1rem;
+  border-right: 1px solid var(--tg-border);
+}
+
+.todo-side-list {
+  flex: 1;
+  min-width: 0;
+}
+
+.todo-side-add :deep(.todo-input-area) {
+  flex-direction: column;
+  margin-bottom: 0;
+}
+.todo-side-add :deep(.todo-input) {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .todo-card-glow {
