@@ -30,12 +30,19 @@ const displayText = computed(() => {
 .todo-footer {
   margin-top: 1.25rem;
   padding-top: 1rem;
-  border-top: 1px solid #363b54;
-  font-size: 0.85rem;
-  color: #565f89;
+  border-top: 1px solid var(--tg-border);
+  font-family: var(--tg-font-mono);
+  font-size: 0.8rem;
+  color: var(--tg-text-muted);
+  letter-spacing: 0.04em;
 }
 
 .todo-count {
   display: block;
+}
+.todo-count::before {
+  content: '// ';
+  color: var(--tg-accent);
+  opacity: 0.7;
 }
 </style>
