@@ -10,6 +10,7 @@
         </aside>
         <main class="todo-side-list">
           <TodoList
+            ref="todoListRef"
             :items="todoItems"
             @toggle="toggleTodo"
             @remove="openDeleteConfirm"
@@ -32,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, nextTick } from 'vue'
 import TodoHeader from './components/todo/TodoHeader.vue'
 import TodoInput from './components/todo/TodoInput.vue'
 import TodoList from './components/todo/TodoList.vue'
@@ -41,6 +42,7 @@ import ConfirmDialog from './components/common/ConfirmDialog.vue'
 import type { TodoItemType } from './types/todo'
 
 const pendingDeleteId = ref<string | null>(null)
+const todoListRef = ref<{ scrollToBottom: () => void } | null>(null)
 
 const deleteConfirmMessage = computed(() => {
   if (!pendingDeleteId.value) return '确定要删除该任务吗？'
@@ -64,7 +66,7 @@ function generateId(): string {
   return Date.now().toString(36) + Math.random().toString(36).slice(2)
 }
 
-function addTodo(text: string) {
+async function addTodo(text: string) {
   const trimmed = text.trim()
   if (!trimmed) return
   todoItems.value.push({
@@ -72,6 +74,8 @@ function addTodo(text: string) {
     text: trimmed,
     done: false,
   })
+  await nextTick()
+  todoListRef.value?.scrollToBottom()
 }
 
 function toggleTodo(id: string) {
