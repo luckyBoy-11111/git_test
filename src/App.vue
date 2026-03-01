@@ -3,14 +3,21 @@
     <div class="todo-page-bg" aria-hidden="true" />
     <div class="todo-card">
       <div class="todo-card-glow" aria-hidden="true" />
-      <TodoHeader />
-      <TodoInput @add="addTodo" />
-      <TodoList
-        :items="todoItems"
-        @toggle="toggleTodo"
-        @remove="openDeleteConfirm"
-      />
-      <TodoFooter :total="todoItems.length" :done-count="doneCount" />
+      <div class="todo-layout">
+        <aside class="todo-side-add">
+          <TodoHeader />
+          <TodoInput @add="addTodo" />
+        </aside>
+        <main class="todo-side-list">
+          <TodoList
+            ref="todoListRef"
+            :items="todoItems"
+            @toggle="toggleTodo"
+            @remove="openDeleteConfirm"
+          />
+          <TodoFooter :total="todoItems.length" :done-count="doneCount" />
+        </main>
+      </div>
     </div>
 
     <ConfirmDialog
@@ -26,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, nextTick } from 'vue'
 import TodoHeader from './components/todo/TodoHeader.vue'
 import TodoInput from './components/todo/TodoInput.vue'
 import TodoList from './components/todo/TodoList.vue'
@@ -35,6 +42,7 @@ import ConfirmDialog from './components/common/ConfirmDialog.vue'
 import type { TodoItemType } from './types/todo'
 
 const pendingDeleteId = ref<string | null>(null)
+const todoListRef = ref<{ scrollToBottom: () => void } | null>(null)
 
 const deleteConfirmMessage = computed(() => {
   if (!pendingDeleteId.value) return '确定要删除该任务吗？'
@@ -58,7 +66,7 @@ function generateId(): string {
   return Date.now().toString(36) + Math.random().toString(36).slice(2)
 }
 
-function addTodo(text: string) {
+async function addTodo(text: string) {
   const trimmed = text.trim()
   if (!trimmed) return
   todoItems.value.push({
@@ -66,6 +74,8 @@ function addTodo(text: string) {
     text: trimmed,
     done: false,
   })
+  await nextTick()
+  todoListRef.value?.scrollToBottom()
 }
 
 function toggleTodo(id: string) {
@@ -117,7 +127,7 @@ function removeTodo(id: string) {
 .todo-card {
   position: relative;
   width: 100%;
-  max-width: 440px;
+  max-width: 720px;
   background: var(--tg-bg-card);
   border: 1px solid var(--tg-border);
   border-radius: 4px;
@@ -126,6 +136,33 @@ function removeTodo(id: string) {
   box-shadow:
     0 0 0 1px rgba(0, 212, 255, 0.08),
     0 24px 48px rgba(0, 0, 0, 0.4);
+}
+
+.todo-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.todo-side-add {
+  flex-shrink: 0;
+  width: 220px;
+  padding-right: 1rem;
+  border-right: 1px solid var(--tg-border);
+}
+
+.todo-side-list {
+  flex: 1;
+  min-width: 0;
+}
+
+.todo-side-add :deep(.todo-input-area) {
+  flex-direction: column;
+  margin-bottom: 0;
+}
+.todo-side-add :deep(.todo-input) {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .todo-card-glow {
