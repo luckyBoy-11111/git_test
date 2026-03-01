@@ -1,11 +1,11 @@
 <template>
-  <li class="todo-item" :class="{ 'todo-item--done': done }">
+  <li class="todo-item" :class="{ 'todo-item--done': done }" @click="emit('toggle')">
     <span
       class="todo-checkbox"
       role="button"
       tabindex="0"
       aria-label="切换完成状态"
-      @click="emit('toggle')"
+      @click.stop="emit('toggle')"
       @keydown.enter.prevent="emit('toggle')"
       @keydown.space.prevent="emit('toggle')"
     >
@@ -16,7 +16,7 @@
       type="button"
       class="todo-remove-btn"
       aria-label="删除"
-      @click="emit('remove')"
+      @click.stop="emit('remove')"
     >
       <span class="todo-remove-icon">×</span>
     </button>
@@ -47,6 +47,7 @@ const emit = defineEmits<{
   font-size: 0.9rem;
   letter-spacing: 0.02em;
   transition: background 0.15s;
+  cursor: pointer;
 }
 
 .todo-item:hover {
