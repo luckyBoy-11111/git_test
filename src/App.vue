@@ -8,10 +8,20 @@
       <TodoList
         :items="todoItems"
         @toggle="toggleTodo"
-        @remove="removeTodo"
+        @remove="openDeleteConfirm"
       />
       <TodoFooter :total="todoItems.length" :done-count="doneCount" />
     </div>
+
+    <ConfirmDialog
+      :visible="pendingDeleteId !== null"
+      title="确认删除"
+      :message="deleteConfirmMessage"
+      confirm-text="确定删除"
+      cancel-text="取消"
+      @confirm="confirmDelete"
+      @cancel="pendingDeleteId = null"
+    />
   </div>
 </template>
 
@@ -21,7 +31,16 @@ import TodoHeader from './components/todo/TodoHeader.vue'
 import TodoInput from './components/todo/TodoInput.vue'
 import TodoList from './components/todo/TodoList.vue'
 import TodoFooter from './components/todo/TodoFooter.vue'
+import ConfirmDialog from './components/common/ConfirmDialog.vue'
 import type { TodoItemType } from './types/todo'
+
+const pendingDeleteId = ref<string | null>(null)
+
+const deleteConfirmMessage = computed(() => {
+  if (!pendingDeleteId.value) return '确定要删除该任务吗？'
+  const item = todoItems.value.find((i: TodoItemType) => i.id === pendingDeleteId.value)
+  return item ? `确定要删除「${item.text}」吗？此操作不可恢复。` : '确定要删除该任务吗？'
+})
 
 const todoItems = ref<TodoItemType[]>([
   { id: '1', text: '完成项目文档', done: true },
@@ -32,7 +51,7 @@ const todoItems = ref<TodoItemType[]>([
 ])
 
 const doneCount = computed(() =>
-  todoItems.value.filter((item) => item.done).length
+  todoItems.value.filter((item: TodoItemType) => item.done).length
 )
 
 function generateId(): string {
@@ -50,12 +69,23 @@ function addTodo(text: string) {
 }
 
 function toggleTodo(id: string) {
-  const item = todoItems.value.find((i) => i.id === id)
+  const item = todoItems.value.find((i: TodoItemType) => i.id === id)
   if (item) item.done = !item.done
 }
 
+function openDeleteConfirm(id: string) {
+  pendingDeleteId.value = id
+}
+
+function confirmDelete() {
+  if (pendingDeleteId.value) {
+    removeTodo(pendingDeleteId.value)
+    pendingDeleteId.value = null
+  }
+}
+
 function removeTodo(id: string) {
-  todoItems.value = todoItems.value.filter((item) => item.id !== id)
+  todoItems.value = todoItems.value.filter((item: TodoItemType) => item.id !== id)
 }
 </script>
 
