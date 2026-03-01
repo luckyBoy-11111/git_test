@@ -47,6 +47,7 @@ const emit = defineEmits<{
   font-size: 0.9rem;
   letter-spacing: 0.02em;
   transition: background 0.15s;
+  cursor: copy;
 }
 
 .todo-item:hover {
