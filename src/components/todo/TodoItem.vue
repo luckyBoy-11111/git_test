@@ -11,7 +11,7 @@
     >
       {{ done ? '✓' : '' }}
     </span>
-    <span class="todo-text">{{ text }}</span>
+    <span class="todo-text" :title="text">{{ text }}</span>
     <button
       type="button"
       class="todo-remove-btn"
@@ -81,6 +81,10 @@ const emit = defineEmits<{
 
 .todo-text {
   flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .todo-remove-btn {
