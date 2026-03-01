@@ -5,6 +5,8 @@
       :key="item.id"
       :text="item.text"
       :done="item.done"
+      @toggle="$emit('toggle', item.id)"
+      @remove="$emit('remove', item.id)"
     />
   </ul>
 </template>
@@ -15,6 +17,11 @@ import type { TodoItemType } from '../../types/todo'
 
 defineProps<{
   items: TodoItemType[]
+}>()
+
+defineEmits<{
+  toggle: [id: string]
+  remove: [id: string]
 }>()
 </script>
 

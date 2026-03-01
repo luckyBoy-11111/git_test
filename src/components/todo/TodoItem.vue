@@ -1,7 +1,25 @@
 <template>
   <li class="todo-item" :class="{ 'todo-item--done': done }">
-    <span class="todo-checkbox" aria-hidden="true">{{ done ? '✓' : '' }}</span>
+    <span
+      class="todo-checkbox"
+      role="button"
+      tabindex="0"
+      aria-label="切换完成状态"
+      @click="emit('toggle')"
+      @keydown.enter.prevent="emit('toggle')"
+      @keydown.space.prevent="emit('toggle')"
+    >
+      {{ done ? '✓' : '' }}
+    </span>
     <span class="todo-text">{{ text }}</span>
+    <button
+      type="button"
+      class="todo-remove-btn"
+      aria-label="删除"
+      @click="emit('remove')"
+    >
+      ×
+    </button>
   </li>
 </template>
 
@@ -9,6 +27,11 @@
 defineProps<{
   text: string
   done?: boolean
+}>()
+
+const emit = defineEmits<{
+  toggle: []
+  remove: []
 }>()
 </script>
 
@@ -38,6 +61,12 @@ defineProps<{
   border-radius: 4px;
   font-size: 0.75rem;
   color: #7aa2f7;
+  cursor: pointer;
+  user-select: none;
+}
+
+.todo-checkbox:hover {
+  border-color: #7aa2f7;
 }
 
 .todo-item--done .todo-checkbox {
@@ -52,5 +81,27 @@ defineProps<{
 
 .todo-text {
   flex: 1;
+}
+
+.todo-remove-btn {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: #565f89;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.todo-remove-btn:hover {
+  color: #f7768e;
+  background: rgba(247, 118, 142, 0.15);
 }
 </style>

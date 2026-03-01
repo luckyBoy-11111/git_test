@@ -1,16 +1,22 @@
 <template>
   <div class="todo-input-area">
     <input
+      ref="inputRef"
+      v-model="inputValue"
       type="text"
       class="todo-input"
       :placeholder="placeholder"
-      readonly
+      @keydown.enter="handleAdd"
     />
-    <button type="button" class="todo-add-btn">{{ buttonText }}</button>
+    <button type="button" class="todo-add-btn" @click="handleAdd">
+      {{ buttonText }}
+    </button>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+
 withDefaults(
   defineProps<{
     placeholder?: string
@@ -21,6 +27,21 @@ withDefaults(
     buttonText: '添加',
   }
 )
+
+const emit = defineEmits<{
+  add: [text: string]
+}>()
+
+const inputValue = ref('')
+const inputRef = ref<HTMLInputElement | null>(null)
+
+function handleAdd() {
+  const text = inputValue.value.trim()
+  if (!text) return
+  emit('add', text)
+  inputValue.value = ''
+  inputRef.value?.focus()
+}
 </script>
 
 <style scoped>
@@ -53,6 +74,10 @@ withDefaults(
   background: #7aa2f7;
   border: none;
   border-radius: 8px;
-  cursor: default;
+  cursor: pointer;
+}
+
+.todo-add-btn:hover {
+  background: #6a92e7;
 }
 </style>
