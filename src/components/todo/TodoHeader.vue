@@ -13,7 +13,7 @@ withDefaults(
     subtitle?: string
   }>(),
   {
-    title: 'To-Do List 123',
+    title: 'To-Do List',
     subtitle: '记录待办事项',
   }
 )
