@@ -22,7 +22,7 @@
 
     <ConfirmDialog
       :visible="pendingDeleteId !== null"
-      title="确认删除456"
+      title="确认删除123"
       :message="deleteConfirmMessage"
       confirm-text="确定删除"
       cancel-text="取消"
